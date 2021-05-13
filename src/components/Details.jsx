@@ -4,6 +4,7 @@ import axios from 'axios';
 const Details = (props) => {
 
     const [info, setInfo] = useState({});
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         axios.get(`https://swapi.dev/api/${props.category}/${props.id}`)
@@ -13,10 +14,8 @@ const Details = (props) => {
             console.log("##########");
             setInfo(res.data);
         } )
-        .catch(err => {
-            console.log("These are not the droids you're looking for");
-        <img src="https://www.monstersandcritics.com/wp-content/uploads/2021/04/Obi-Wan-Kenobi.jpg" alt="Obi-Wan-Kenobi"/>
-        })
+        .catch(err => setError(true))
+
     }, [props.category, props.id]);
 
 
@@ -25,6 +24,11 @@ const Details = (props) => {
             
             <h1>{info.name}</h1>
             {
+                error ? 
+                <>
+                    <h1>These are not the droids you're looking for</h1>
+                    <img src="https://www.monstersandcritics.com/wp-content/uploads/2021/04/Obi-Wan-Kenobi.jpg" alt="Obi-Wan-Kenobi"/>
+                </> : 
                 props.category === "people" ? 
                 <>
                 <h3>Height: {info.height}</h3>
